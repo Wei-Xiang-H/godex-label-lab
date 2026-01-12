@@ -1,0 +1,149 @@
+﻿
+    <div class="container" id="container">
+        <div class="header">
+            <h1>🖨️ 標籤機列印設定</h1>
+            <p>請填寫以下資訊以設定標籤列印參數</p>
+        </div>
+
+        <div class="form-content">
+            <form id="labelForm">
+                <!-- 印表機連線設定 -->
+                <div class="section">
+                    <div class="section-title">印表機連線設定</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>IP 位址<span class="required">*</span></label>
+                            <input type="text" id="ipAddress" name="Connection.IpAddress"
+                                   placeholder="例如: 192.168.1.100" required>
+                            <div class="error-message" id="error-ipAddress">請輸入有效的 IP 位址</div>
+                        </div>
+                        <div class="form-group">
+                            <label>連接埠<span class="required">*</span></label>
+                            <input type="number" id="port" name="Connection.Port"
+                                   value="9100" required>
+                            <div class="error-message" id="error-port">請輸入有效的連接埠</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 標籤設定 -->
+                <div class="section">
+                    <div class="section-title">標籤設定</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>紙張類型<span class="required">*</span></label>
+                            <select id="paperType" name="LabelSetting.PaperType" required>
+                                <option value="">請選擇</option>
+                                <option value="0">標籤紙</option>
+                                <option value="1">連續紙</option>
+                            </select>
+                            <div class="error-message" id="error-paperType">請選擇紙張類型</div>
+                        </div>
+                        <div class="form-group">
+                            <label>標籤高度 (mm)<span class="required">*</span></label>
+                            <input type="number" id="labelH" name="LabelSetting.LabelH"
+                                   placeholder="例如: 50" min="1" required>
+                            <div class="error-message" id="error-labelH">標籤高度必須大於 0</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>標籤寬度 (mm)<span class="required">*</span></label>
+                            <input type="number" id="labelW" name="LabelSetting.LabelW"
+                                   placeholder="例如: 80" min="1" required>
+                            <div class="error-message" id="error-labelW">標籤寬度必須大於 0</div>
+                        </div>
+                        <div class="form-group">
+                            <label>標籤間距 (mm)<span class="required">*</span></label>
+                            <input type="number" id="labelGap" name="LabelSetting.LabelGap"
+                                   placeholder="例如: 2" min="1" required>
+                            <div class="error-message" id="error-labelGap">標籤間距必須大於 0</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>濃度 (0-19)<span class="required">*</span></label>
+                            <input type="number" id="labelDark" name="LabelSetting.LabelDark"
+                                   min="0" max="19" value="10" required>
+                            <div class="error-message" id="error-labelDark">濃度範圍為 0-19</div>
+                        </div>
+                        <div class="form-group">
+                            <label>速度 (2-7)<span class="required">*</span></label>
+                            <input type="number" id="labelSpeed" name="LabelSetting.LabelSpeed"
+                                   min="2" max="7" value="4" required>
+                            <div class="error-message" id="error-labelSpeed">速度範圍為 2-7</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>列印份數<span class="required">*</span></label>
+                            <input type="number" id="labelCopyNo" name="LabelSetting.LabelCopyNo"
+                                   min="1" value="1" required>
+                            <div class="error-message" id="error-labelCopyNo">列印份數必須大於 0</div>
+                        </div>
+                    </div>
+                    <!-- 隱藏欄位 -->
+                    <input type="hidden" id="labelPageNo" name="LabelSetting.LabelPageNo" value="1">
+                </div>
+
+                <!-- 標籤內容 -->
+                <div class="section">
+                    <div class="section-title">標籤內容</div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>產品名稱<span class="required">*</span></label>
+                            <input type="text" id="productName" name="Element.ProductName"
+                                   placeholder="請輸入產品名稱" required>
+                            <div class="error-message" id="error-productName">請輸入產品名稱</div>
+                        </div>
+                        <div class="form-group">
+                            <label>製造日期<span class="required">*</span></label>
+                            <input type="date" id="manufacturedDate" name="Element.ManufacturedDate" required>
+                            <div class="error-message" id="error-manufacturedDate">請選擇製造日期</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>聯絡電話<span class="required">*</span></label>
+                            <input type="text" id="phone" name="Element.Phone"
+                                   placeholder="例如: 0912345678" pattern="09[0-9]{8}" required>
+                            <div class="error-message" id="error-phone">請輸入正確格式 (09 開頭共 10 碼)</div>
+                        </div>
+                        <div class="form-group">
+                            <label>圖片上傳 (選填)</label>
+                            <input type="file" id="image" name="Image"
+                                   accept=".bmp,.gif">
+                            <div class="file-info">支援格式: BMP, GIF</div>
+                            <div class="error-message" id="error-image">僅支援 BMP 或 GIF 格式</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 按鈕 -->
+                <div class="btn-container">
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        送出列印
+                    </button>
+                    <button type="button" class="btn-reset" onclick="resetForm()">
+                        重設表單
+                    </button>
+                </div>
+
+                <!-- 訊息區 -->
+                <div id="message" class="message"></div>
+
+                <!-- 載入中 -->
+                <div id="loading" class="loading">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 15px; color: #667eea;">處理中，請稍候...</p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @section topCSS{
+    <link href="~/css/label.css" rel="stylesheet" />
+    }
+    @section endJS{
+    <script src="~/js/label.js" asp-append-version="true"></script>
+    }

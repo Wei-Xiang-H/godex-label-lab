@@ -1,0 +1,22 @@
+﻿文字JSON
+{
+  "connection": {
+    "ipAddress": "192.168.66.25",
+    "port": 9100
+  },
+  "labelSetting": {
+    "paperType": 0,
+    "labelH": 102,
+    "labelGap": 2,
+    "labelW": 100,
+    "labelDark": 10,
+    "labelSpeed": 4,
+    "labelPageNo": 1,
+    "labelCopyNo": 1
+  },
+  "element": {
+    "productName": "測試產品",
+    "manufacturedDate": "2025-01-01",
+    "phone": "02-12345678"
+  }
+}
