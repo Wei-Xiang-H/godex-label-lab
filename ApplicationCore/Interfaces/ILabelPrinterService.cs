@@ -11,7 +11,7 @@ namespace ApplicationCore.Interfaces
     {
         Task ConnectAsync(PrinterConnectionDto connection);
         Task SetupLabelAsync(LabelSettingDto labelSetting);
-        Task PrintLabelAsync(LabelElementDto element);
+        Task PrintLabelAsync(List<LabelElementDto> elements);
         Task DisconnectAsync();
     }
 }

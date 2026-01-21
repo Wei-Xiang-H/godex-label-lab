@@ -23,11 +23,12 @@ namespace GoDex.Controllers
         {
             try
             {
-                var requestDto = FormToDtoConverter.ConvertToDto(form, "C:\\PrintImages");
+                var converter = new FormToDtoConverter();
+                var requestDto = await converter.ConvertToDtoAsync(form);
 
                 await _labelPrinterService.ConnectAsync(requestDto.Connection);
                 await _labelPrinterService.SetupLabelAsync(requestDto.LabelSetting);
-                await _labelPrinterService.PrintLabelAsync(requestDto.Element);
+                await _labelPrinterService.PrintLabelAsync(requestDto.Elements);
                 await _labelPrinterService.DisconnectAsync();
                 return Ok(new { message = "列印完成" });
             }

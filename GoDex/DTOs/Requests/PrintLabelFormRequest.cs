@@ -13,9 +13,6 @@ namespace GoDex.DTOs.Requests
         public LabelSettingDto LabelSetting { get; set; }
 
         [Required]
-        public LabelElementDto Element { get; set; }
-
-        [AllowedExtensions(new[] { ".bmp", ".gif" })]
-        public IFormFile? Image { get; set; }
+        public List<LabelElementFormItem> Elements { get; set; }
     }
 }

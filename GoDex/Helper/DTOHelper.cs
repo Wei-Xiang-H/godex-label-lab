@@ -3,48 +3,58 @@ using GoDex.DTOs.Requests;
 
 namespace GoDex.Helper
 {
-    public static class FormToDtoConverter
+    public  class FormToDtoConverter
     {
-        public static PrintLabelRequestDto ConvertToDto(PrintLabelFormRequest form, string folderPath)
+        public async Task<PrintLabelRequestDto> ConvertToDtoAsync(PrintLabelFormRequest form)
         {
-            if (form == null)
-                throw new ArgumentNullException(nameof(form));
+            // 存圖片的資料夾（你可以自己改）
+            var imageFolder = @"C:\GodexImages";
 
-            
-            var element = new LabelElementDto
+            if (!Directory.Exists(imageFolder))
             {
-                ProductName = form.Element.ProductName,
-                ManufacturedDate = form.Element.ManufacturedDate,
-                Phone = form.Element.Phone,
-                ImagePath = null
-            };
-
-            
-            if (form.Image != null && form.Image.Length > 0)
-            {
-                if (!Directory.Exists(folderPath))
-                    Directory.CreateDirectory(folderPath);
-
-                var extension = Path.GetExtension(form.Image.FileName).ToLowerInvariant();
-                var fileName = Guid.NewGuid() + extension;
-                var filePath = Path.Combine(folderPath, fileName);
-
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    form.Image.CopyTo(stream);
-                }
-
-                element.ImagePath = filePath;
+                Directory.CreateDirectory(imageFolder);
             }
 
+            var elements = new List<LabelElementDto>();
+
+            foreach (var item in form.Elements)
+            {
+                var elementDto = new LabelElementDto
+                {
+                    Type = item.Type,
+                    LabelX = item.LabelX,
+                    LabelY = item.LabelY,
+                    LabelText = item.LabelText,
+                    FontHeight = item.FontHeight,
+                    TextWidth = item.TextWidth
+                };
+
+                
+                if (item.Type == LabelElementType.Image && item.Image != null)
+                {
+                    var extension = Path.GetExtension(item.Image.FileName).ToLowerInvariant();
+                    var fileName = $"{Guid.NewGuid()}{extension}";
+                    var filePath = Path.Combine(imageFolder, fileName);
+
+                    await using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await item.Image.CopyToAsync(stream);
+                    }
+
+                    elementDto.ImagePath = filePath;
+                }
+
+                elements.Add(elementDto);
+            }
 
             return new PrintLabelRequestDto
             {
                 Connection = form.Connection,
                 LabelSetting = form.LabelSetting,
-                Element = element
+                Elements = elements
             };
         }
+
 
     }
 }

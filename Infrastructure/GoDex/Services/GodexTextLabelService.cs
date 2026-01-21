@@ -29,17 +29,32 @@ namespace Infrastructure.GoDex.Services
             _client.LabelSetup(labelSetting);
         }
 
-        public async Task PrintLabelAsync(LabelElementDto element)
+        public async Task PrintLabelAsync(List<LabelElementDto> elements)
         {
             _client.PrintStart();
-            _client.PrintTextSelect(10, 10, 50, element.ProductName,0, (FontWeight)400, (RotateMode)0);
-            _client.PrintTextSelect(10, 100, 50, element.ManufacturedDate.ToString("yyyy-MM-dd"), 0, (FontWeight)400, (RotateMode)0);
-            _client.PrintTextSelect(10, 200, 50, element.Phone, 0, (FontWeight)400, (RotateMode)0);
-            if (element.ImagePath != null)
+            foreach (var element in elements)
             {
-                _client.PrintImg(10, 300, element.ImagePath, 0);
+                switch (element.Type)
+                {
+                    case LabelElementType.Text:
+                        _client.PrintTextSelect(
+                            element.LabelX, 
+                            element.LabelY, 
+                            element.FontHeight.Value, 
+                            element.LabelText, 
+                            element.TextWidth.Value, 
+                            (FontWeight)400, 
+                            (RotateMode)0
+                        ); 
+                        break;
+                    case LabelElementType.Image:
+                        _client.PrintImg(element.LabelX,element.LabelY,element.ImagePath,0);
+                        break;
+                    default:
+                        throw new NotSupportedException($"未知的 LabelElementType: {element.Type}");
+                }
+                ;
             }
-
             _client.PrintEnd();
         }
 

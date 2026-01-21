@@ -7,29 +7,48 @@ namespace GoDex.Attributes
     {
         private readonly string[] _extensions;
 
-        
         public AllowedExtensionsAttribute(string[] extensions)
         {
-            _extensions = extensions.Select(e => e.ToLowerInvariant()).ToArray();
+            _extensions = extensions;
         }
 
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
-            var file = value as IFormFile;
-
-            
-            if (file == null)
+            if (value == null)
                 return ValidationResult.Success;
 
+            if (value is IFormFile file)
+            {
+                return ValidateFile(file);
+            }
+
+            if (value is IEnumerable<IFormFile> files)
+            {
+                foreach (var f in files)
+                {
+                    var result = ValidateFile(f);
+                    if (result != ValidationResult.Success)
+                        return result;
+                }
+
+                return ValidationResult.Success;
+            }
+
+            return new ValidationResult("不支援的檔案型別");
+        }
+
+        private ValidationResult ValidateFile(IFormFile file)
+        {
             var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
 
             if (!_extensions.Contains(extension))
             {
-                var allowedList = string.Join(", ", _extensions);
-                return new ValidationResult($"只允許上傳以下格式的圖片：{allowedList}");
+                return new ValidationResult(
+                    $"不支援的檔案格式，僅允許：{string.Join(", ", _extensions)}");
             }
 
             return ValidationResult.Success;
         }
     }
+
 }

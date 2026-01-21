@@ -9,20 +9,29 @@ namespace ApplicationCore.DTOs
 {
     public  class LabelElementDto
     {
-        [Required]
-        [MinLength(1, ErrorMessage = "欄位不能為空")]
-        public string ProductName { get; set; }
+        public LabelElementType Type { get; set; }
 
-        [Required]
-        public DateOnly ManufacturedDate { get; set; }
+        public int LabelX { get; set; }
+        public int LabelY { get; set; }
 
-        [Required]
-        public string Phone { get; set; }
+        // Text
+        public string? LabelText { get; set; }
+        public int? FontHeight { get; set; }
+        public int? TextWidth { get; set; }
 
-        public string ImagePath { get; set; } = string.Empty;
+        // Image
+        public string? ImagePath { get; set; }
     }
 
     
+
+    public enum LabelElementType
+    {
+        Text,
+        Image
+    }
+
+
 
 
 }

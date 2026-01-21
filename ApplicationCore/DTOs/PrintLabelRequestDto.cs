@@ -9,13 +9,11 @@ namespace ApplicationCore.DTOs
 {
     public class PrintLabelRequestDto
     {
-        [Required]
         public PrinterConnectionDto Connection { get; set; } 
 
-        [Required]
         public LabelSettingDto LabelSetting { get; set; } 
 
-        [Required]
-        public LabelElementDto Element { get; set; } 
+        
+        public List<LabelElementDto> Elements { get; set; }
     }
 }
