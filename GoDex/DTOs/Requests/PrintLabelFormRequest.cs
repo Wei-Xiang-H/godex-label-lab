@@ -13,6 +13,6 @@ namespace GoDex.DTOs.Requests
         public LabelSettingDto LabelSetting { get; set; }
 
         [Required]
-        public List<LabelElementFormItem> Elements { get; set; }
+        public List<LabelElementFormRequest> Elements { get; set; }
     }
 }

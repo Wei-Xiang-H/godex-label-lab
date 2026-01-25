@@ -15,6 +15,6 @@ namespace ApplicationCore.DTOs
         public string IpAddress { get; set; } 
 
         [Required]
-        public int? Port { get; set; } = 9100; 
+        public int Port { get; set; } = 9100; 
     }
 }

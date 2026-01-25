@@ -10,21 +10,21 @@ namespace ApplicationCore.DTOs
     public class LabelSettingDto
     {
         [Required]
-        public int? PaperType { get; set; }
+        public int PaperType { get; set; }
         [Required]
-        public int? LabelH { get; set; }
+        public int LabelH { get; set; }
         [Required]
-        public int? LabelGap { get; set; }
+        public int LabelGap { get; set; }
         [Required]
-        public int? LabelW { get; set; }
+        public int LabelW { get; set; }
         [Required]
-        public int? LabelDark { get; set; }
+        public int LabelDark { get; set; }
         [Required]
-        public int? LabelSpeed { get; set; }
+        public int LabelSpeed { get; set; }
         [Required]
-        public int? LabelPageNo { get; set; }
+        public int LabelPageNo { get; set; }
         [Required]
-        public int? LabelCopyNo { get; set; }
+        public int LabelCopyNo { get; set; }
 
     }
 }

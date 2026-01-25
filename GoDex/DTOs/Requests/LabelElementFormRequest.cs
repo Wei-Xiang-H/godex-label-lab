@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace GoDex.DTOs.Requests
 {
-    public class LabelElementFormItem
+    public class LabelElementFormRequest
     {
         [Required]
         public LabelElementType Type { get; set; }
@@ -21,6 +21,8 @@ namespace GoDex.DTOs.Requests
 
         [AllowedExtensions(new[] { ".bmp", ".gif" })]
         public IFormFile? Image { get; set; }
+        public int? ImageWidthPx { get; set; }
+        public int? ImageHeightPx { get; set; }
     }
 
 }

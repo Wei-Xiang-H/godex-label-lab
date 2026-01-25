@@ -1,4 +1,5 @@
 using ApplicationCore.Interfaces;
+using GoDex.Helper;
 using Infrastructure.GoDex.Services;
 using Infrastructure.SDK;
 
@@ -14,6 +15,8 @@ namespace GoDex
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<GodexPrinterClient>();
             builder.Services.AddScoped<ILabelPrinterService, GodexTextLabelService>();
+            builder.Services.AddSingleton<IImageStorageService>(sp =>new ImageStorageService(@"C:\GodexImages"));
+            builder.Services.AddScoped<FormToDtoConverter>();
 
             var app = builder.Build();
 

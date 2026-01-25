@@ -1,20 +1,20 @@
 ﻿using ApplicationCore.DTOs;
+using ApplicationCore.Interfaces;
 using GoDex.DTOs.Requests;
 
 namespace GoDex.Helper
 {
     public  class FormToDtoConverter
     {
+        private readonly IImageStorageService _imageService;
+
+        public FormToDtoConverter(IImageStorageService imageService)
+        {
+            _imageService = imageService;
+        }
+
         public async Task<PrintLabelRequestDto> ConvertToDtoAsync(PrintLabelFormRequest form)
         {
-            // 存圖片的資料夾（你可以自己改）
-            var imageFolder = @"C:\GodexImages";
-
-            if (!Directory.Exists(imageFolder))
-            {
-                Directory.CreateDirectory(imageFolder);
-            }
-
             var elements = new List<LabelElementDto>();
 
             foreach (var item in form.Elements)
@@ -23,25 +23,19 @@ namespace GoDex.Helper
                 {
                     Type = item.Type,
                     LabelX = item.LabelX,
-                    LabelY = item.LabelY,
-                    LabelText = item.LabelText,
-                    FontHeight = item.FontHeight,
-                    TextWidth = item.TextWidth
+                    LabelY = item.LabelY
                 };
 
-                
-                if (item.Type == LabelElementType.Image && item.Image != null)
+                if (item.Type == LabelElementType.Text)
                 {
-                    var extension = Path.GetExtension(item.Image.FileName).ToLowerInvariant();
-                    var fileName = $"{Guid.NewGuid()}{extension}";
-                    var filePath = Path.Combine(imageFolder, fileName);
-
-                    await using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await item.Image.CopyToAsync(stream);
-                    }
-
-                    elementDto.ImagePath = filePath;
+                    elementDto.LabelText = item.LabelText;
+                    elementDto.FontHeight = item.FontHeight;
+                    elementDto.TextWidth = item.TextWidth;
+                }
+                else if (item.Type == LabelElementType.Image && item.Image != null)
+                {
+                    elementDto.ImagePath = await _imageService.SaveAndResizeImageAsync(
+                        item.Image, item.ImageWidthPx, item.ImageHeightPx);
                 }
 
                 elements.Add(elementDto);
@@ -54,7 +48,5 @@ namespace GoDex.Helper
                 Elements = elements
             };
         }
-
-
     }
 }

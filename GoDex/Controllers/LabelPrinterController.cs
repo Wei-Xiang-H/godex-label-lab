@@ -12,10 +12,12 @@ namespace GoDex.Controllers
     public class LabelPrinterController : ControllerBase
     {
         private readonly ILabelPrinterService _labelPrinterService;
+        private readonly FormToDtoConverter _converter;
 
-        public LabelPrinterController(ILabelPrinterService labelPrinterService)
+        public LabelPrinterController(ILabelPrinterService labelPrinterService, FormToDtoConverter converter)
         {
             _labelPrinterService = labelPrinterService;
+            _converter = converter;
         }
 
         [HttpPost("print")]
@@ -23,9 +25,7 @@ namespace GoDex.Controllers
         {
             try
             {
-                var converter = new FormToDtoConverter();
-                var requestDto = await converter.ConvertToDtoAsync(form);
-
+                var requestDto = await _converter.ConvertToDtoAsync(form);
                 await _labelPrinterService.ConnectAsync(requestDto.Connection);
                 await _labelPrinterService.SetupLabelAsync(requestDto.LabelSetting);
                 await _labelPrinterService.PrintLabelAsync(requestDto.Elements);

@@ -1,0 +1,26 @@
+﻿【前端】
+1. 使用者上傳圖片
+   → 前端讀取圖片「原始 px 尺寸」
+
+2. 顯示在 Canvas / Fabric.js
+   → 使用者拖曳、縮放（等比例或非等比例都可以）
+
+3. 前端計算最終資訊：
+   - X / Y（dot）           ← SDK 要的列印座標
+   - WidthPx / HeightPx      ← 調整後的圖片實際大小（px）
+   - 原始圖片檔案
+
+4. 前端透過 FromForm 傳給後端：
+   - 原始圖片檔案
+   - X / Y（dot）
+   - WidthPx / HeightPx（調整後 px）
+【後端】
+5. 後端接收 FromForm 資料：
+   - 原始圖片檔案
+   - X / Y（dot）
+   - WidthPx / HeightPx
+
+6. 後端使用 px 產生縮放後圖片：
+   - 實際產出的圖片就是 WidthPx × HeightPx
+   - 這張圖片放入指定資料夾
+   - 產生圖片路徑，透過ConvertToDtoAsync存到PrintLabelRequestDto
