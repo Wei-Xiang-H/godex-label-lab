@@ -271,6 +271,19 @@ function updateFormInputs(elementId) {
     }
 }
 
+// 防止所有 input 按 Enter 送出表單
+document.addEventListener('DOMContentLoaded', function () {
+    const form = document.getElementById('labelForm');
+    if (form) {
+        form.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+                e.preventDefault();
+                return false;
+            }
+        });
+    }
+});
+
 // 即時驗證功能 (只包含必填欄位)
 const formFields = [
     { id: 'ipAddress', errorId: 'error-ipAddress' },
@@ -314,7 +327,7 @@ function addTextElement() {
         labelY: 0,
         labelText: '',
         fontHeight: 32,
-        textWidth: 1
+        textWidth: 0
     };
     elements.push(element);
     renderElements();
@@ -433,10 +446,9 @@ function confirmEdit(elementId) {
         const xInput = document.getElementById(`x-${elementId}`);
         const yInput = document.getElementById(`y-${elementId}`);
         const fontHeightInput = document.getElementById(`fontHeight-${elementId}`);
-        const textWidthInput = document.getElementById(`textWidth-${elementId}`);
 
         if (!validateNumberInput(xInput) || !validateNumberInput(yInput) ||
-            !validateNumberInput(fontHeightInput) || !validateNumberInput(textWidthInput)) {
+            !validateNumberInput(fontHeightInput)) {
             showMessage('請確認所有數值欄位為有效的正整數', 'error');
             return;
         }
@@ -444,7 +456,7 @@ function confirmEdit(elementId) {
         element.labelX = parseInt(xInput.value) || 0;
         element.labelY = parseInt(yInput.value) || 0;
         element.fontHeight = parseInt(fontHeightInput.value) || 32;
-        element.textWidth = parseInt(textWidthInput.value) || 1;
+        element.textWidth = 0;
     } else if (element.type === 'Image') {
         // 驗證數值欄位
         const xInput = document.getElementById(`x-${elementId}`);
@@ -598,14 +610,11 @@ function renderElements() {
                                         <input type="number" id="y-${element.id}" value="${element.labelY}" min="0" step="1">
                                     </div>
                                     <div class="detail-group">
-                                        <label>字體高度</label>
+                                        <label>文字大小</label>
                                         <input type="number" id="fontHeight-${element.id}" value="${element.fontHeight}" min="1" step="1">
                                     </div>
-                                    <div class="detail-group">
-                                        <label>文字寬度</label>
-                                        <input type="number" id="textWidth-${element.id}" value="${element.textWidth}" min="1" step="1">
-                                    </div>
                                 </div>
+                                <input type="hidden" id="textWidth-${element.id}" value="0">
                                 <button type="button" class="btn-confirm" id="confirm-${element.id}" onclick="confirmEdit(${element.id})">確認</button>
                                 <span class="edit-warning" id="warning-${element.id}">請確認編輯</span>
                             </div>
@@ -658,6 +667,11 @@ function renderElements() {
 
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // 詢問是否確定要列印
+    if (!confirm('確定要送出列印嗎？')) {
+        return; // 取消則不執行
+    }
 
     // 提交前最終驗證 (只驗證必填欄位)
     let hasError = false;

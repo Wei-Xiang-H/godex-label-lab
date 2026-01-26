@@ -22,7 +22,7 @@ body {
     display: flex;
     gap: 30px;
     margin-top: 20px;
-    padding:0 20px;
+    padding: 0 20px;
 }
 
 .form-section {
@@ -64,7 +64,8 @@ body {
     overflow: hidden;
 }
 
-
+#container {
+}
 
 .header {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -83,7 +84,8 @@ body {
         font-size: 14px;
     }
 
-
+.form-content {
+}
 
 .section {
     margin-bottom: 30px;
@@ -407,7 +409,7 @@ select {
     gap: 15px;
     justify-content: center;
     margin-top: 30px;
-    padding-bottom: 30px;
+    padding-bottom:30px;
 }
 
 button {

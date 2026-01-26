@@ -18,13 +18,15 @@
                         <div class="form-group">
                             <label>IP 位址<span class="required">*</span></label>
                             <input type="text" id="ipAddress" name="Connection.IpAddress" 
-                                   placeholder="例如: 192.168.1.100" required>
+                                   placeholder="例如: 192.168.1.100" required
+                                   onkeydown="if(event.key === 'Enter') event.preventDefault()">
                             <div class="error-message" id="error-ipAddress">請輸入有效的 IP 位址</div>
                         </div>
                         <div class="form-group">
                             <label>連接埠<span class="required">*</span></label>
                             <input type="number" id="port" name="Connection.Port" 
-                                   value="9100" required>
+                                   value="9100" required
+                                   onkeydown="if(event.key === 'Enter') event.preventDefault()">
                             <div class="error-message" id="error-port">請輸入有效的連接埠</div>
                         </div>
                     </div>
@@ -157,6 +159,7 @@
             </button>
         </div>
     </div>
+
 
     @section topCSS{
     <link href="~/css/label.css" rel="stylesheet" />
