@@ -4,7 +4,7 @@
     <Platform Name="x86" />
   </Configurations>
   <Project Path="ApplicationCore/ApplicationCore.csproj" Id="6f4eb490-aa2b-428c-9a3e-89a2c3ca5ea3" />
-  <Project Path="D:/code/GoDex/GoDex/GoDex.csproj">
+  <Project Path="GoDex\GoDex.csproj">
     <Platform Solution="*|x86" Project="x86" />
   </Project>
   <Project Path="Infrastructure/Infrastructure.csproj" Id="d082445e-5f18-4023-8907-f18289c69341" />
